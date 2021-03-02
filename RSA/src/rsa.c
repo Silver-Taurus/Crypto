@@ -1,6 +1,6 @@
-#include "modulars.h"
-#include "primes.h"
-#include "rsa.h"
+#include "../include/modulars.h"
+#include "../include/primes.h"
+#include "../include/rsa.h"
 
 static long	pick_e(long phi)
 {

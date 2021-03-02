@@ -3,23 +3,26 @@ CC 		= gcc
 
 NAME 	= rsa
 
+CFLAGS		= -Iinclude/ -W -Wall -Wextra -march=native -ggdb3
+
 SRCS 	= src/modulars.c	\
 		src/primes.c		\
 		src/rsa.c			\
 		src/main.c
 
-OBJS 	= $(SRCS:.o=.out)
+OBJS 	= $(SRCS:.c=.o)
 
-
-all: $(OBJS)
+all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(OBJS)
+	$(CC) -o $(NAME) $(OBJS) -lm
+
+fclean: clean
+	$(RM) $(NAME)
 
 clean:
 	$(RM) $(OBJS)
 
-fclean:
-	$(RM) $(NAME)
-
 re: fclean all
+
+re_clean: fclean all clean
