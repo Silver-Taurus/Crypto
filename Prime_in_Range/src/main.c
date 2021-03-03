@@ -14,7 +14,7 @@ int main (void) {
     scan(a);
     scan(b);
 
-    t_primes *prime_data = create_prime_data(a, b, SQRT, 8);
+    t_primes *prime_data = create_prime_data(a, b, SQRT);
 
     find_primes(prime_data);
 

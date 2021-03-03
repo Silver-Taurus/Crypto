@@ -7,8 +7,12 @@ typedef long VAL_TYPE;
 // Defining a Macro for the format specifier coresponding to the datatype used.
 #define VAL_FS "%ld"
 
-// Defining a Macro for the scanf
+// Define the LENGTH value
+#define LENGTH 8
+
+// Defining a Macro for the scanf and newline
 #define scan(x) scanf(VAL_FS, &x)
+#define nl() printf("\n\n")
 
 /*
 Defining an enum to provide the boolean functionality.
@@ -34,7 +38,7 @@ typedef struct list {
 
 /* ---------- Function Prototypes ---------- */
 // Function to create a new list
-t_list* create_new_list(VAL_TYPE length);
+t_list* create_new_list();
 
 // Function to extend the length of an existing list
 void extend_list(t_list* existing_list);

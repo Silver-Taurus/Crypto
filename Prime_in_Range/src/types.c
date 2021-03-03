@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-t_list* create_new_list(VAL_TYPE length) {
+t_list* create_new_list() {
     // Creating a new list dynamically
     t_list* new_list = malloc(sizeof(t_list));
 
     // Creating the values array of new list based on the given length
-    new_list->values = malloc(sizeof(VAL_TYPE) * length);
+    new_list->values = malloc(sizeof(VAL_TYPE) * LENGTH);
 
     // Initializing the length and values data of the new list
-    new_list->max_length = length;
+    new_list->max_length = LENGTH;
     new_list->length = 0;
-    memset(new_list->values, 0, sizeof(VAL_TYPE) * length);
+    memset(new_list->values, 0, sizeof(VAL_TYPE) * LENGTH);
 
     return new_list;
 }

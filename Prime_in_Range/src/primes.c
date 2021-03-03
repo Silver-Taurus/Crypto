@@ -1,7 +1,9 @@
 #include "../include/primes.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
-t_primes* create_prime_data(VAL_TYPE a, VAL_TYPE b, t_prime_algo_type type, VAL_TYPE length) {
+t_primes* create_prime_data(VAL_TYPE a, VAL_TYPE b, t_prime_algo_type type) {
     // Creating a prime data dynamically
     t_primes *prime_data = malloc(sizeof(t_primes));
 
@@ -11,7 +13,10 @@ t_primes* create_prime_data(VAL_TYPE a, VAL_TYPE b, t_prime_algo_type type, VAL_
     prime_data->type = type;
 
     // Creating the primes list of the prime data variable
-    prime_data->primes_list = create_new_list(length);
+    prime_data->primes_list = create_new_list();
+
+    // Initializing the sum of prime data
+    prime_data->sum = 0;
 
     return prime_data;
 }
@@ -45,8 +50,10 @@ void find_primes(t_primes *prime_data) {
             res = is_prime(num);
 
             // Add the number to the list if its prime
-            if (res)
+            if (res) {
                 prime_data->primes_list->values[prime_data->primes_list->length++] = num;
+                prime_data->sum += num;
+            }
 
             // If the length of the list reached its max length, extend the list
             if (prime_data->primes_list->length == prime_data->primes_list->max_length)
@@ -55,19 +62,31 @@ void find_primes(t_primes *prime_data) {
     }
 }
 
-void display(t_primes *prime_data) {
-    // Output text for display
+void info(t_primes *prime_data) {
+    // Output the info about the prime data
     printf("Prime Numbers in the range ");
     printf(VAL_FS, prime_data->a);
     printf(" and ");
     printf(VAL_FS, prime_data->b);
+}
+
+void display(t_primes *prime_data) {
+    // Output text for display
+    nl();
+    info(prime_data);
     printf(" are: ");
 
     // Displaying the values in the primes list of prime data
     for (VAL_TYPE index = 0; index < prime_data->primes_list->length; index++) {
         printf(VAL_FS, prime_data->primes_list->values[index]);
-        printf(' ');
+        printf(" ");
     }
 
-    printf('\n');
+    nl();
+
+    printf("Sum of ");
+    info(prime_data);
+    printf(" is: ");
+    printf(VAL_FS, prime_data->sum);
+    nl();
 }
