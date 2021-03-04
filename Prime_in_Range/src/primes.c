@@ -121,6 +121,7 @@ void display(t_primes *prime_data) {
     }
 
     nl();
+    nl();
 
     printf("Sum of ");
     info(prime_data);

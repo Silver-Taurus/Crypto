@@ -4,16 +4,19 @@
 // Giving an Alias to the datatype to be used later.
 typedef long VAL_TYPE;
 typedef char SIEVE_VAL_TYPE;
+typedef int INT_TYPE;
 
 // Defining a Macro for the format specifier coresponding to the datatype used.
 #define VAL_FS "%ld"
+#define STRING_FS "%s"
+#define CHAR_FS "%c"
 
 // Define the LENGTH value
 #define LENGTH 16
 
 // Defining a Macro for the scanf and newline
 #define scan(x) scanf(VAL_FS, &x)
-#define nl() printf("\n\n")
+#define nl() printf("\n")
 
 /*
 Defining an enum to provide the boolean functionality.
