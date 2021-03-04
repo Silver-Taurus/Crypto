@@ -6,7 +6,7 @@ NAME 		= 	primes
 CFLAGS 		= 	-Wall
 LDFLAGS		= 	-lm
 
-SRCS 		= 	src/types.c 	\
+SRCS 		= 	src/list.c 	\
 				src/primes.c 	\
 				src/main.c
 

@@ -51,7 +51,7 @@ void find_primes(t_primes *prime_data) {
 
             // Add the number to the list if its prime
             if (res) {
-                prime_data->primes_list->values[prime_data->primes_list->length++] = num;
+                ((VAL_TYPE *) prime_data->primes_list->values)[prime_data->primes_list->length++] = num;
                 prime_data->sum += num;
             }
 
@@ -78,7 +78,7 @@ void display(t_primes *prime_data) {
 
     // Displaying the values in the primes list of prime data
     for (VAL_TYPE index = 0; index < prime_data->primes_list->length; index++) {
-        printf(VAL_FS, prime_data->primes_list->values[index]);
+        printf(VAL_FS, ((VAL_TYPE *) prime_data->primes_list->values)[index]);
         printf(" ");
     }
 

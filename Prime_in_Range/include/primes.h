@@ -1,4 +1,4 @@
-#include "types.h"
+#include "list.h"
 
 #ifndef __PRIMES__
 #define __PRIMES__
