@@ -43,12 +43,14 @@ t_bool is_prime(VAL_TYPE num) {
 
 void sieve_of_eratosthenes(t_primes *prime_data) {
     // Find the sqrt of the number in order to perform optimized search
-    VAL_TYPE prime_opt = (VAL_TYPE) floorl(sqrtl(prime_data->primes_list->max_length)) + 1;
+    VAL_TYPE prime_opt = (VAL_TYPE) floorl(sqrtl(prime_data->primes_list->max_length));
 
+    // Remove the first two numbers 0 and 1
     ((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[0] = False;
     ((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[1] = False;
 
-    for (VAL_TYPE index = 2; index < prime_opt; index++) {
+    // Apply the Sieve of eratosthenes algo to find prime numbers and update length
+    for (VAL_TYPE index = 2; index <= prime_opt; index++) {
         if (((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[index]) {
             for (VAL_TYPE mul = index * index; mul < prime_data->primes_list->max_length; mul += index) {
                 ((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[mul] = False;
@@ -104,13 +106,13 @@ void display(t_primes *prime_data) {
     if (prime_data->type) {
         for (VAL_TYPE index = 0; index < prime_data->primes_list->max_length; index++)
             if (((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[index]) {
-                prime_data->sum += index;
-
                 printf(VAL_FS, index);
                 printf(" ");        
+   
+                // For the SIEVE method also calculate the sum
+                prime_data->sum += index;
             }       
     }
-        
     else {
         for (VAL_TYPE index = 0; index < prime_data->primes_list->length; index++) {
             printf(VAL_FS, ((VAL_TYPE *) prime_data->primes_list->values)[index]);
