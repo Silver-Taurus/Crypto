@@ -4,7 +4,7 @@
 
 t_list* create_new_list() {
     // Creating a new list dynamically
-    t_list* new_list = malloc(sizeof(t_list));
+    t_list *new_list = malloc(sizeof(t_list));
 
     // Creating the values array of new list based on the given length
     new_list->values = malloc(sizeof(VAL_TYPE) * LENGTH);
@@ -19,7 +19,7 @@ t_list* create_new_list() {
 
 void extend_list(t_list* existing_list) {
     // Creating a new values array of double length of that of the existing list's values array
-    VAL_TYPE* new_values = malloc(sizeof(VAL_TYPE) * existing_list->max_length * 2);
+    VAL_TYPE *new_values = malloc(sizeof(VAL_TYPE) * existing_list->max_length * 2);
 
     // Initializing the new values array
     memset(new_values, 0, sizeof(VAL_TYPE) * existing_list->max_length * 2);
@@ -30,5 +30,6 @@ void extend_list(t_list* existing_list) {
 
     // Updating the length of the existing_list and the values array with the new values array
     existing_list->max_length *= 2;
+    free(existing_list->values);
     existing_list->values = new_values;
 }
