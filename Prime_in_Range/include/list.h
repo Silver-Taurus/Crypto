@@ -17,7 +17,7 @@ typedef struct list {
 
 /* ---------- Function Prototypes ---------- */
 // Function to create a new list
-t_list* create_new_list();
+t_list* create_new_list(t_prime_algo_type type, VAL_TYPE length);
 
 // Function to extend the length of an existing list
 void extend_list(t_list* existing_list);

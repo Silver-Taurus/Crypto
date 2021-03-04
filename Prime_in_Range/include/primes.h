@@ -4,16 +4,6 @@
 #define __PRIMES__
 
 /*
-Defining an enum to set the type of algorithm to be used to find the primes in range.
-    - SQRT for the sqrt prime finding algorithm.
-    - SIEVE for the sieve_of_eratosthenes prime finding algorithm.
-*/
-typedef enum prime_algo_type {
-    SQRT,
-    SIEVE
-} t_prime_algo_type;
-
-/*
 Defining a structure primes and giving it an Alias - t_primes.
 
 It stores
@@ -38,7 +28,7 @@ t_primes* create_prime_data(VAL_TYPE a, VAL_TYPE b, t_prime_algo_type type);
 t_bool is_prime(VAL_TYPE num);
 
 // Function to provide the sieve of eratosthenes algorithm.
-void sieve_of_eratosthenes(VAL_TYPE num);
+void sieve_of_eratosthenes(t_primes *prime_data);
 
 // Function to find the prime numbers and store them.
 void find_primes(t_primes *prime_data);

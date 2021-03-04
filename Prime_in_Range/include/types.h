@@ -3,6 +3,7 @@
 
 // Giving an Alias to the datatype to be used later.
 typedef long VAL_TYPE;
+typedef char SIEVE_VAL_TYPE;
 
 // Defining a Macro for the format specifier coresponding to the datatype used.
 #define VAL_FS "%ld"
@@ -23,5 +24,15 @@ typedef enum boolean {
     False,
     True
 } t_bool;
+
+/*
+Defining an enum to set the type of algorithm to be used to find the primes in range.
+    - SQRT for the sqrt prime finding algorithm.
+    - SIEVE for the sieve_of_eratosthenes prime finding algorithm.
+*/
+typedef enum prime_algo_type {
+    SQRT,
+    SIEVE
+} t_prime_algo_type;
 
 #endif

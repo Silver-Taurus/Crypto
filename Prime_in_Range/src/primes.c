@@ -12,8 +12,11 @@ t_primes* create_prime_data(VAL_TYPE a, VAL_TYPE b, t_prime_algo_type type) {
     prime_data->b = b;
     prime_data->type = type;
 
-    // Creating the primes list of the prime data variable
-    prime_data->primes_list = create_new_list();
+    // Creating the primes list of the prime data variable based on algo type
+    if (type)
+        prime_data->primes_list = create_new_list(type, b + 1);
+    else
+        prime_data->primes_list = create_new_list(type, LENGTH);
 
     // Initializing the sum of prime data
     prime_data->sum = 0;
@@ -38,6 +41,23 @@ t_bool is_prime(VAL_TYPE num) {
     return True;
 }
 
+void sieve_of_eratosthenes(t_primes *prime_data) {
+    // Find the sqrt of the number in order to perform optimized search
+    VAL_TYPE prime_opt = (VAL_TYPE) floorl(sqrtl(prime_data->primes_list->max_length)) + 1;
+
+    ((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[0] = False;
+    ((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[1] = False;
+
+    for (VAL_TYPE index = 2; index < prime_opt; index++) {
+        if (((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[index]) {
+            for (VAL_TYPE mul = index * index; mul < prime_data->primes_list->max_length; mul += index) {
+                ((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[mul] = False;
+                prime_data->primes_list->length--;
+            }
+        }
+    }
+}
+
 void find_primes(t_primes *prime_data) {
     /* ---------- First check for the algo type to find the prime numbers ---------- */
     // SQRT method to find the prime numbers
@@ -60,6 +80,10 @@ void find_primes(t_primes *prime_data) {
                 extend_list(prime_data->primes_list);
         }
     }
+
+    // SIEVE of eratosthenes method to find the prime numbers
+    else
+        sieve_of_eratosthenes(prime_data);
 }
 
 void info(t_primes *prime_data) {
@@ -76,10 +100,22 @@ void display(t_primes *prime_data) {
     info(prime_data);
     printf(" are: ");
 
-    // Displaying the values in the primes list of prime data
-    for (VAL_TYPE index = 0; index < prime_data->primes_list->length; index++) {
-        printf(VAL_FS, ((VAL_TYPE *) prime_data->primes_list->values)[index]);
-        printf(" ");
+    // Displaying the values in the primes list of prime data based on the algo type
+    if (prime_data->type) {
+        for (VAL_TYPE index = 0; index < prime_data->primes_list->max_length; index++)
+            if (((SIEVE_VAL_TYPE *) prime_data->primes_list->values)[index]) {
+                prime_data->sum += index;
+
+                printf(VAL_FS, index);
+                printf(" ");        
+            }       
+    }
+        
+    else {
+        for (VAL_TYPE index = 0; index < prime_data->primes_list->length; index++) {
+            printf(VAL_FS, ((VAL_TYPE *) prime_data->primes_list->values)[index]);
+            printf(" ");
+        }
     }
 
     nl();

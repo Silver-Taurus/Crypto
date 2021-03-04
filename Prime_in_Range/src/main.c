@@ -17,7 +17,7 @@ int main (void) {
     scan(b);
 
     // Create the prime data
-    t_primes *prime_data = create_prime_data(a, b, SQRT);
+    t_primes *prime_data = create_prime_data(a, b, SIEVE);
 
     // Find and dispaly the primes
     find_primes(prime_data);
