@@ -29,6 +29,7 @@ void extend_list(t_list* existing_list) {
         new_values[index] = existing_list->values[index];
 
     // Updating the length of the existing_list and the values array with the new values array
+    // and free the old values
     existing_list->max_length *= 2;
     free(existing_list->values);
     existing_list->values = new_values;

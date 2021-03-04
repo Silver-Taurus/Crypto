@@ -1,6 +1,6 @@
 /*
-Objective: Given a string and a character
-    - replace all the vowels in the string with that character
+Objective: Given a string
+    - reverse the words in the string
     - display the new string
 */
 #include "../include/dstrings.h"
@@ -9,22 +9,15 @@ Objective: Given a string and a character
 #include <ctype.h>
 
 int main(void) {
-    // Create the string and character variables
+    // Create the string variable
     t_str *string = create_new_string();
-    CH_TYPE ch;
-
+    
     // Take the input in the string's content
     printf("Enter the string: ");
     string_input(string);
 
-    // Get the character that will replace the vowels
-    nl();
-    printf("Enter the character to replaced with vowels: ");
-    ch = getchar();
-    nl();
-    
-    // Replace the vowels in the string's content with ch
-    replace(string, ch);
+    // Reverse the words in the string's content
+    reverse(string);
 
     // Display the new string to the console
     display(string);
