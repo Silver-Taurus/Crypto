@@ -8,10 +8,4 @@ typedef short SHORT;
 typedef int INT;
 typedef unsigned UNSIGNED;
 
-// Defining the Macros to be used latter
-#define MAX 80
-#define PORT 8080
-
-
-
 #endif
