@@ -11,6 +11,8 @@ typedef struct server {
     INT connections;
     INT newsockfd;
     SOCKADDR_IN cli;
+    CHAR serv_buffer[BUFFER_SIZE];
+    CHAR cli_buffer[BUFFER_SIZE];
 } server_t;
 
 /* ---------- Function Prototypes ---------- */

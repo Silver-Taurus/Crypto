@@ -63,7 +63,6 @@ typedef struct socket {
     INT sockfd;
     SOCKLEN_T addr_len;
     SOCKADDR_IN serv_addr;
-    CHAR buffer[BUFFER_SIZE];
 } socket_t;
 
 #endif

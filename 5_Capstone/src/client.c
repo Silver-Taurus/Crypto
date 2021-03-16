@@ -53,6 +53,10 @@ void connect_socket(client_t *client, CHAR *hostname) {
 
     // Continuous communication with the server
     while(1) {
+        // Initialize the cli_buffer and serv_buffer with 0
+        bzero(client->cli_buffer, BUFFER_SIZE);
+        bzero(client->serv_buffer, BUFFER_SIZE);
+
         write_socket(client);
 
         if(read_socket(client) == True)
@@ -64,35 +68,35 @@ void connect_socket(client_t *client, CHAR *hostname) {
 }
 
 void write_socket(client_t *client) {
-    // Initialize the buffer with 0
-    bzero(client->sock_ele.buffer, BUFFER_SIZE);
-
     // Take the input from the server
-    fgets(client->sock_ele.buffer, BUFFER_SIZE, stdin);
+    fgets(client->cli_buffer, BUFFER_SIZE, stdin);
 
     // Write on the socket
-    INT write_response = write(client->sock_ele.sockfd, (CHAR *) client->sock_ele.buffer, BUFFER_SIZE);
+    INT write_response = write(client->sock_ele.sockfd, (CHAR *) client->cli_buffer, BUFFER_SIZE);
 
     // Check for the error on writing on the socket
     check_terminate(write_response, WRITE_ERROR);
 
     // Clear the buffer
-    bzero(client->sock_ele.buffer, BUFFER_SIZE);
+    bzero(client->cli_buffer, BUFFER_SIZE);
 }
 
 bool_t read_socket(client_t *client) {
     // Read on the socket
-    INT read_response = read(client->sock_ele.sockfd, (CHAR *) client->sock_ele.buffer, BUFFER_SIZE);
+    INT read_response = read(client->sock_ele.sockfd, (CHAR *) client->serv_buffer, BUFFER_SIZE);
 
     // Check for the error on reading on the socket
     check_terminate(read_response, READ_ERROR);
 
     // Display the output
     fprintf(stdout, "Server: ");
-    fprintf(stdout, STR_FS, client->sock_ele.buffer);
+    fprintf(stdout, STR_FS, client->serv_buffer);
 
     // Check for the close connection condition
-    if (strncmp("Bye", client->sock_ele.buffer, 3) == 0)
+    if (strncmp("Bye", client->serv_buffer, 3) == 0)
         return True;
+
+    // Clear the buffer if connection is stil active
+    bzero(client->serv_buffer, BUFFER_SIZE);
     return False;
 }

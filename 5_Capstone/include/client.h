@@ -9,6 +9,8 @@
 typedef struct client {
     socket_t sock_ele;
     HOSTENT *server;
+    CHAR serv_buffer[BUFFER_SIZE];
+    CHAR cli_buffer[BUFFER_SIZE];
 } client_t;
 
 /* ---------- Function Prototypes ---------- */
