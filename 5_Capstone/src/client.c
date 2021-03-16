@@ -71,8 +71,6 @@ void connect_socket(client_t *client, CHAR *hostname) {
 
         if (res == True)
             break;
-
-        pthread_join(write_id, NULL);  
     }
 
     // Close the client and the connection

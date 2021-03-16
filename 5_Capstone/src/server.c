@@ -83,8 +83,6 @@ void accept_socket(server_t *server) {
 
         if (res == True)
             break;
-
-        pthread_join(read_id, NULL);
     }
 
     // Close the connection
