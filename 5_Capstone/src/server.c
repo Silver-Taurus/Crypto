@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
+
+// Defining and Initializing the global variables
+bool_t res = False;
 
 void check_terminate(INT check, CHAR *msg) {
     if (check < 0) {
@@ -57,6 +61,8 @@ void listen_socket(server_t *server) {
 }
 
 void accept_socket(server_t *server) {
+    pthread_t read_id, write_id;
+
     // Accepting connection on socket
     server->newsockfd = accept(server->sock_ele.sockfd, (SOCKADDR *) &server->cli, &server->sock_ele.addr_len);
 
@@ -69,10 +75,16 @@ void accept_socket(server_t *server) {
         bzero(server->cli_buffer, BUFFER_SIZE);
         bzero(server->serv_buffer, BUFFER_SIZE);
 
-        read_socket(server);
+        pthread_create(&read_id, NULL, read_socket, server);
 
-        if (write_socket(server) == True)
+        pthread_create(&write_id, NULL, write_socket, server);
+
+        pthread_join(write_id, NULL);
+
+        if (res == True)
             break;
+
+        pthread_join(read_id, NULL);
     }
 
     // Close the connection
@@ -82,36 +94,39 @@ void accept_socket(server_t *server) {
     close(server->sock_ele.sockfd);
 }
 
-void read_socket(server_t *server) {
+void* read_socket(void *server) {
     // Read on the socket
-    INT read_response = read(server->newsockfd, (CHAR *) server->cli_buffer, BUFFER_SIZE);
+    INT read_response = read(server_ci->newsockfd, (CHAR *) server_ci->cli_buffer, BUFFER_SIZE);
 
     // Check for the error on reading on the socket
     check_terminate(read_response, READ_ERROR);
 
     // Display the output
     fprintf(stdout, "Client: ");
-    fprintf(stdout, STR_FS, server->cli_buffer);
+    fprintf(stdout, STR_FS, server_ci->cli_buffer);
 
     // Clear the buffer
-    bzero(server->cli_buffer, BUFFER_SIZE);
+    bzero(server_ci->cli_buffer, BUFFER_SIZE);
+
+    return NULL;
 }
 
-bool_t write_socket(server_t *server) {
+void* write_socket(void *server) {
     // Take the input from the server
-    fgets(server->serv_buffer, BUFFER_SIZE, stdin);
+    fgets(((server_t *) server)->serv_buffer, BUFFER_SIZE, stdin);
 
     // Write on the socket
-    INT write_response = write(server->newsockfd, (CHAR *) server->serv_buffer, BUFFER_SIZE);
+    INT write_response = write(server_ci->newsockfd, (CHAR *) server_ci->serv_buffer, BUFFER_SIZE);
 
     // Check for the error on writing on the socket
     check_terminate(write_response, WRITE_ERROR);
 
     // Check for the close connection condition
-    if (strncmp("Bye", server->serv_buffer, 3) == 0)
-        return True;
+    if (strncmp("Bye",server_ci->serv_buffer, 3) == 0)
+        res = True;
 
     // Clear the buffer if connection is stil active
-    bzero(server->serv_buffer, BUFFER_SIZE);
-    return False;
+    bzero(server_ci->serv_buffer, BUFFER_SIZE);
+
+    return NULL;
 }

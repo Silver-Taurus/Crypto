@@ -15,6 +15,11 @@ typedef struct server {
     CHAR cli_buffer[BUFFER_SIZE];
 } server_t;
 
+/*
+    Defining macros for providing functionality
+*/
+#define server_ci ((server_t *) server)
+
 /* ---------- Function Prototypes ---------- */
 // Function to check for the termination condition of the process
 void check_terminate(INT check, CHAR *msg);
@@ -35,9 +40,9 @@ void listen_socket(server_t *server);
 void accept_socket(server_t *server);
 
 // Function to read on socket
-void read_socket(server_t *server);
+void* read_socket(void *server);
 
 // Function to write on socket
-bool_t write_socket(server_t *server);
+void* write_socket(void *server);
 
 #endif

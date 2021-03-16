@@ -30,12 +30,14 @@ typedef struct hostent HOSTENT;
 #define BUFFER_SIZE 256
 #define PORTNO 8080
 #define CONNECTIONS 1
-#define HOSTNAME "127.0.0.1"
+#define HOSTNAME "localhost"
 
 /*
     Defining macros to provide functionality in the program
 */
-#define nl() fprintf(stdout, "\n")
+#define STROUT(str) fprintf(stdout, str)
+#define OUT(format, var) fprintf(stdout, format, var)
+#define NL() fprintf(stdout, "\n")
 #define SOCKET_ERROR "Error in creating socket..."
 #define BIND_ERROR "Error in binding socket..."
 #define LISTEN_ERROR "Error in listening on socket..."

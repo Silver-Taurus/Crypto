@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
+
+// Decalaring and Initializing the global variable
+bool_t res = False;
 
 void check_terminate(INT check, CHAR *msg) {
     if (check < 0) {
@@ -30,6 +34,8 @@ void create_socket(client_t *client) {
 }
 
 void connect_socket(client_t *client, CHAR *hostname) {
+    pthread_t read_id, write_id;
+
     // Store the hostname
     client->server = gethostbyname(hostname);
 
@@ -57,46 +63,55 @@ void connect_socket(client_t *client, CHAR *hostname) {
         bzero(client->cli_buffer, BUFFER_SIZE);
         bzero(client->serv_buffer, BUFFER_SIZE);
 
-        write_socket(client);
+        pthread_create(&write_id, NULL, write_socket, client);
 
-        if(read_socket(client) == True)
+        pthread_create(&read_id, NULL, read_socket, client);
+
+        pthread_join(read_id, NULL);
+
+        if (res == True)
             break;
+
+        pthread_join(write_id, NULL);  
     }
 
     // Close the client and the connection
     close(client->sock_ele.sockfd);
 }
 
-void write_socket(client_t *client) {
+void* write_socket(void *client) {
     // Take the input from the server
-    fgets(client->cli_buffer, BUFFER_SIZE, stdin);
+    fgets(client_ci->cli_buffer, BUFFER_SIZE, stdin);
 
     // Write on the socket
-    INT write_response = write(client->sock_ele.sockfd, (CHAR *) client->cli_buffer, BUFFER_SIZE);
+    INT write_response = write(client_ci->sock_ele.sockfd, (CHAR *) client_ci->cli_buffer, BUFFER_SIZE);
 
     // Check for the error on writing on the socket
     check_terminate(write_response, WRITE_ERROR);
 
     // Clear the buffer
-    bzero(client->cli_buffer, BUFFER_SIZE);
+    bzero(client_ci->cli_buffer, BUFFER_SIZE);
+
+    return NULL;
 }
 
-bool_t read_socket(client_t *client) {
+void* read_socket(void *client) {
     // Read on the socket
-    INT read_response = read(client->sock_ele.sockfd, (CHAR *) client->serv_buffer, BUFFER_SIZE);
+    INT read_response = read(client_ci->sock_ele.sockfd, (CHAR *) client_ci->serv_buffer, BUFFER_SIZE);
 
     // Check for the error on reading on the socket
     check_terminate(read_response, READ_ERROR);
 
     // Display the output
     fprintf(stdout, "Server: ");
-    fprintf(stdout, STR_FS, client->serv_buffer);
+    fprintf(stdout, STR_FS, client_ci->serv_buffer);
 
     // Check for the close connection condition
-    if (strncmp("Bye", client->serv_buffer, 3) == 0)
-        return True;
+    if (strncmp("Bye", client_ci->serv_buffer, 3) == 0)
+        res = True;
 
     // Clear the buffer if connection is stil active
-    bzero(client->serv_buffer, BUFFER_SIZE);
-    return False;
+    bzero(client_ci->serv_buffer, BUFFER_SIZE);
+    
+    return NULL;
 }

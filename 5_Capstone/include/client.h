@@ -5,6 +5,10 @@
 
 /*
     Defining a structure for the client
+        - Common socklet elements
+        - server (hostname / hostaddress)
+        - server message buffer
+        - client message buffer
 */
 typedef struct client {
     socket_t sock_ele;
@@ -12,6 +16,12 @@ typedef struct client {
     CHAR serv_buffer[BUFFER_SIZE];
     CHAR cli_buffer[BUFFER_SIZE];
 } client_t;
+
+/*
+    Defining macros for providing functionality
+        - Macro for typecasting of client_t for the thread functions
+*/
+#define client_ci ((client_t *) client)
 
 /* ---------- Function Prototypes ---------- */
 // Function to check for the termination condition of the process
@@ -27,9 +37,9 @@ void create_socket(client_t *client);
 void connect_socket(client_t *client, CHAR *hostname);
 
 // Function to write on socket
-void write_socket(client_t *client);
+void* write_socket(void *client);
 
 // Function to read on socket
-bool_t read_socket(client_t *client);
+void* read_socket(void *client);
 
 #endif
