@@ -17,10 +17,8 @@ INCLUDES	= 	-I./include/
 LFLAGS		=
 
 # Define the C source files
-SERVER_SRCS = 	src/server.c 	\
-				src/host.c		
-CLIENT_SRCS	=	src/client.c 	\
-				src/node.c
+SERVER_SRCS = 	src/server.c src/host.c		
+CLIENT_SRCS	=	src/client.c src/node.c
 
 # Define the C object files using a Suffix Replacement within a macro.
 # Also the gnu make has the default functionality for the Suffix replacement
