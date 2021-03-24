@@ -1,4 +1,4 @@
-#include "../include/client.h"
+#include "client.h"
 
 INT main(INT argc, CHAR **argv) {
     client_t *client = create_client(PORTNO);
