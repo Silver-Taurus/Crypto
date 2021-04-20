@@ -1,4 +1,4 @@
-#include "../include/server.h"
+#include "server.h"
 
 INT main(INT argc, CHAR **argv) {
     server_t *server = create_server(PORTNO, CONNECTIONS);

@@ -5,7 +5,7 @@ SERVER_NAME	=	host
 CLIENT_NAME	=	node
 
 CFLAGS 		= 	-Wall
-LDFLAGS		=
+LDFLAGS		=	-lpthread
 
 SERVER_SRCS = 	src/server.c 	\
 				src/host.c		
